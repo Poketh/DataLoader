@@ -14,7 +14,7 @@ class MatrixDescriptor extends React.Component {
   }
 
   componentDidMount(){
-    var MD = window.web3.eth.contract(abi).at('0xa4164d5d4336f879c6a2093492eb5f4b9b521e8e');
+    var MD = window.web3.eth.contract(abi).at('0x4885a23e34ca136dc068bf2b900cd42c1dd71500');
     MD.getItem.call([this.props.num], (err, ans) => {
       this.paintCanvas(ans);
     });

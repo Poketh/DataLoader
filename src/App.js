@@ -3,7 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import MatrixDescriptor from './MatrixDescriptor.js';
 
-const itemList= [1,2,3];
+const itemList = [1,2,3,4,5];
 
 class App extends Component {
   render() {
