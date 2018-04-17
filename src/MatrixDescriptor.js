@@ -50,7 +50,7 @@ class MatrixDescriptor extends React.Component {
 
   render(){
     return(
-      <canvas ref="canvas"/>
+      <canvas style={{padding:'10px'}} ref="canvas"/>
     );
   }
 }
