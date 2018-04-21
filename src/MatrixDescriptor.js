@@ -30,6 +30,27 @@ class MatrixDescriptor extends React.Component {
       return [(0xFF0000 & d) >> 16, (0x00FF00 & d) >> 8, 0x0000FF & d, d === 0 ? 0 : 255]
     })
 
+
+    let cx = 0, cy = 0;
+    let lc = 0;
+
+    for(let i = 0; i < 4; i++){
+      let accx = 0;
+      let ctx = 0;
+      for(let j = 0; j < 5; j++){
+        if(raw[j + i*5] !== 0){
+          accx += j-2;
+          ctx++;
+        }
+      }
+      if(ctx > 0){
+        cx += accx / ctx;
+        lc++;
+      }
+    }
+
+    const xoff = cx/lc;
+
     let rdata = [].concat(...hexdata).slice()
 
     let canvas = this.refs.canvas; 
@@ -45,7 +66,7 @@ class MatrixDescriptor extends React.Component {
       data[i] = rdata[i];
     }
 
-    context.putImageData( imageData, 0, 0 );
+    context.putImageData( imageData, -xoff, 0 );
   }
 
   render(){
