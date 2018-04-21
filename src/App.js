@@ -9,7 +9,9 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        { itemList.map(n => <MatrixDescriptor key={n} num={n}/>) }
+        <div className="items">
+          { itemList.map(n => <MatrixDescriptor key={n} num={n}/>) }
+        </div>
       </div>
     );
   }

@@ -10,6 +10,11 @@ class MatrixDescriptor extends React.Component {
   constructor (props){
     super(props);
 
+    this.state = {
+      xoff: 0,
+      yoff: 0,
+    };
+
     this.paintCanvas = this.paintCanvas.bind(this);
   }
 
@@ -32,8 +37,8 @@ class MatrixDescriptor extends React.Component {
 
 
     let cx = 0, cy = 0;
-    let lc = 0;
 
+    let lc = 0;
     for(let i = 0; i < 4; i++){
       let accx = 0;
       let ctx = 0;
@@ -48,8 +53,26 @@ class MatrixDescriptor extends React.Component {
         lc++;
       }
     }
+    
+    const xoff = -cx/lc * 50 ;
 
-    const xoff = cx/lc;
+    lc = 0;
+    for(let i = 0; i < 5; i++){
+      let accy = 0;
+      let cty = 0;
+      for(let j = 0; j < 4; j++){
+        if(raw[i + j*5] !== 0){
+          accy += j-2;
+          cty++;
+        }
+      }
+      if(cty > 0){
+        cy += accy / cty;
+        lc++;
+      }
+    }
+
+    const yoff = -cy/lc * 50;
 
     let rdata = [].concat(...hexdata).slice()
 
@@ -66,12 +89,18 @@ class MatrixDescriptor extends React.Component {
       data[i] = rdata[i];
     }
 
-    context.putImageData( imageData, -xoff, 0 );
+    context.putImageData( imageData, 0, 0);
+
+    console.log(xoff)
+    this.setState({xoff: xoff, yoff: yoff});
   }
 
   render(){
+    const off = this.state.xoff;
+    const off2 = this.state.yoff;
+
     return(
-      <canvas style={{padding:'10px'}} ref="canvas"/>
+     <canvas style={{paddingLeft: off, paddingTop: off2}} ref="canvas"/>
     );
   }
 }
