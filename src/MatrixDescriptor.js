@@ -62,8 +62,7 @@ class MatrixDescriptor extends React.Component {
       }
     }
 
-    console.log(cx, this.props.num)
-    const xoff = -cx/lc * 25;
+    const xoff = -cx/lc * 10;
 
     lc = 0;
     for(let i = 0; i < 5; i++){
@@ -81,7 +80,7 @@ class MatrixDescriptor extends React.Component {
       }
     }
 
-    const yoff = -cy/lc * 25;
+    const yoff = -cy/lc * 8;
 
     let rdata = [].concat(...hexdata).slice()
 
@@ -108,11 +107,11 @@ class MatrixDescriptor extends React.Component {
     const off2 = this.state.yoff;
 
     return(
-      <Col span={2} offset={0}>
+      <div style={{display: 'inline-block', padding:'8px'}}>
         <div style={{marginLeft: off, marginTop: off2}}>
           <canvas ref="canvas"/>
         </div>
-      </Col>
+      </div>
     );
   }
 }

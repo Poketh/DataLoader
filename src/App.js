@@ -15,9 +15,11 @@ class App extends Component {
           <h1 style={{color: 'black'}}>PokETH</h1>
         </Header>
         <Layout>
-          <Content style={{background: 'rgb(0, 0, 0)'}}>
-            <Row type="flex" justify="start" align="middle">
-              { itemList.map((n) => <MatrixDescriptor key={n} num={n}/>) }
+          <Content style={{background: '#040403'}}>
+            <Row>
+              <Col span={8} offset={2} style={{display: 'inline-block'}}>
+                  { itemList.map((n) => <MatrixDescriptor key={n} num={n}/>) }
+              </Col>
             </Row>
           </Content>
         </Layout>
