@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "antd": "^3.4.1",
     "colors-show": "0.0.2",
     "npm": "^5.8.0",
     "react": "^16.3.1",

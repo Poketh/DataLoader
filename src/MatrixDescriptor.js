@@ -1,10 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Row, Col, Card, Divider } from 'antd';
 
 import './MatrixDescriptor.css';
 import styled from 'styled-components';
 
-const abi = [{"constant":false,"inputs":[{"name":"_itm","type":"uint64[20]"}],"name":"addItem","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"anonymous":false,"inputs":[{"indexed":true,"name":"previousOwner","type":"address"},{"indexed":true,"name":"newOwner","type":"address"}],"name":"OwnershipTransferred","type":"event"},{"constant":false,"inputs":[{"name":"newOwner","type":"address"}],"name":"transferOwnership","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"inputs":[{"name":"_pallete","type":"address"}],"payable":false,"stateMutability":"nonpayable","type":"constructor"},{"constant":true,"inputs":[{"name":"_idx","type":"uint64"}],"name":"getItem","outputs":[{"name":"","type":"uint64[20]"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"owner","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"}];
+const abi = [{"constant":false,"inputs":[{"name":"_itm","type":"uint64[20]"},{"name":"_title","type":"string"}],"name":"addItem","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"_idx","type":"uint64"},{"name":"_itm","type":"uint64[20]"},{"name":"_title","type":"string"}],"name":"editItem","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"anonymous":false,"inputs":[{"indexed":true,"name":"previousOwner","type":"address"},{"indexed":true,"name":"newOwner","type":"address"}],"name":"OwnershipTransferred","type":"event"},{"constant":false,"inputs":[{"name":"newOwner","type":"address"}],"name":"transferOwnership","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"inputs":[{"name":"_pallete","type":"address"}],"payable":false,"stateMutability":"nonpayable","type":"constructor"},{"constant":true,"inputs":[{"name":"_idx","type":"uint64"}],"name":"getItem","outputs":[{"name":"","type":"uint64[20]"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"_idx","type":"uint64"}],"name":"getItemTitle","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"idx","outputs":[{"name":"","type":"uint64"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"matrixSize","outputs":[{"name":"","type":"uint16"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"owner","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"xsize","outputs":[{"name":"","type":"uint16"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"ysize","outputs":[{"name":"","type":"uint16"}],"payable":false,"stateMutability":"view","type":"function"}];
 
 class MatrixDescriptor extends React.Component {
   constructor (props){
@@ -13,15 +14,22 @@ class MatrixDescriptor extends React.Component {
     this.state = {
       xoff: 0,
       yoff: 0,
+      name: "",
     };
 
     this.paintCanvas = this.paintCanvas.bind(this);
   }
 
   componentDidMount(){
-    var MD = window.web3.eth.contract(abi).at('0x4885a23e34ca136dc068bf2b900cd42c1dd71500');
+    // 0x4885a23e34ca136dc068bf2b900cd42c1dd71500
+    var MD = window.web3.eth.contract(abi).at('0x845c58071db537e86613525ee1c9a8b67ef47c86');
+
     MD.getItem.call([this.props.num], (err, ans) => {
       this.paintCanvas(ans);
+    });
+
+    MD.getItemTitle.call([this.props.num], (err, ans) => {
+      this.setState({name: ans});
     });
   }
 
@@ -49,12 +57,13 @@ class MatrixDescriptor extends React.Component {
         }
       }
       if(ctx > 0){
-        cx += accx / ctx;
-        lc++;
+        cx += (accx);
+        lc += ctx;
       }
     }
-    
-    const xoff = -cx/lc * 50 ;
+
+    console.log(cx, this.props.num)
+    const xoff = -cx/lc * 25;
 
     lc = 0;
     for(let i = 0; i < 5; i++){
@@ -67,12 +76,12 @@ class MatrixDescriptor extends React.Component {
         }
       }
       if(cty > 0){
-        cy += accy / cty;
-        lc++;
+        cy += (accy);
+        lc += cty;
       }
     }
 
-    const yoff = -cy/lc * 50;
+    const yoff = -cy/lc * 25;
 
     let rdata = [].concat(...hexdata).slice()
 
@@ -91,7 +100,6 @@ class MatrixDescriptor extends React.Component {
 
     context.putImageData( imageData, 0, 0);
 
-    console.log(xoff)
     this.setState({xoff: xoff, yoff: yoff});
   }
 
@@ -100,7 +108,11 @@ class MatrixDescriptor extends React.Component {
     const off2 = this.state.yoff;
 
     return(
-     <canvas style={{paddingLeft: off, paddingTop: off2}} ref="canvas"/>
+      <Col span={2} offset={0}>
+        <div style={{marginLeft: off, marginTop: off2}}>
+          <canvas ref="canvas"/>
+        </div>
+      </Col>
     );
   }
 }
