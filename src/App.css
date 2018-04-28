@@ -1,6 +1,14 @@
 @import '~antd/dist/antd.css';
 
 body {
- background: #040403;
+ background: #202010;
 }
 
+.dataDisplay {
+  width: 500px;
+  height: 400px;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -webkit-crisp-edges;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}

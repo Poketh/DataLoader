@@ -9,8 +9,13 @@ canvas {
   image-rendering: crisp-edges;
 }
 
-.MDB {
-  background-image: linear-gradient(45deg, #F0F0F0 25%, transparent 25%), linear-gradient(-45deg, #F0F0F0 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #F0F0F0 75%), linear-gradient(-45deg, transparent 75%, #F0F0F0 75%);
-  background-size: 30px 30px;
-  background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+.zoom {
+  transition: transform .2s; /* Animation */
+  width: 60px;
+  height: 60px;
+  margin: 8 auto;
+}
+
+.zoom:hover {
+    transform: scale(1.5); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
 }

@@ -1,11 +1,12 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { Row, Col, Card, Divider } from 'antd';
+import { Row, Col } from 'antd';
 
 import './MatrixDescriptor.css';
-import styled from 'styled-components';
 
 const abi = [{"constant":false,"inputs":[{"name":"_itm","type":"uint64[20]"},{"name":"_title","type":"string"}],"name":"addItem","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"_idx","type":"uint64"},{"name":"_itm","type":"uint64[20]"},{"name":"_title","type":"string"}],"name":"editItem","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"anonymous":false,"inputs":[{"indexed":true,"name":"previousOwner","type":"address"},{"indexed":true,"name":"newOwner","type":"address"}],"name":"OwnershipTransferred","type":"event"},{"constant":false,"inputs":[{"name":"newOwner","type":"address"}],"name":"transferOwnership","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"inputs":[{"name":"_pallete","type":"address"}],"payable":false,"stateMutability":"nonpayable","type":"constructor"},{"constant":true,"inputs":[{"name":"_idx","type":"uint64"}],"name":"getItem","outputs":[{"name":"","type":"uint64[20]"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"_idx","type":"uint64"}],"name":"getItemTitle","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"idx","outputs":[{"name":"","type":"uint64"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"matrixSize","outputs":[{"name":"","type":"uint16"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"owner","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"xsize","outputs":[{"name":"","type":"uint16"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"ysize","outputs":[{"name":"","type":"uint16"}],"payable":false,"stateMutability":"view","type":"function"}];
+
+const unitX = 10;
+const unitY = 8;
 
 class MatrixDescriptor extends React.Component {
   constructor (props){
@@ -18,10 +19,10 @@ class MatrixDescriptor extends React.Component {
     };
 
     this.paintCanvas = this.paintCanvas.bind(this);
+    this.handleChoose = this.handleChoose.bind(this);
   }
 
   componentDidMount(){
-    // 0x4885a23e34ca136dc068bf2b900cd42c1dd71500
     var MD = window.web3.eth.contract(abi).at('0x845c58071db537e86613525ee1c9a8b67ef47c86');
 
     MD.getItem.call([this.props.num], (err, ans) => {
@@ -31,6 +32,10 @@ class MatrixDescriptor extends React.Component {
     MD.getItemTitle.call([this.props.num], (err, ans) => {
       this.setState({name: ans});
     });
+  }
+
+  handleChoose(e){
+    this.props.getChoice(this.props.num, this.state.name, this.refs.canvas, this.state.xoff, this.state.yoff);
   }
 
   paintCanvas(ans){
@@ -62,7 +67,7 @@ class MatrixDescriptor extends React.Component {
       }
     }
 
-    const xoff = -cx/lc * 10;
+    const xoff = -cx/lc;
 
     lc = 0;
     for(let i = 0; i < 5; i++){
@@ -80,7 +85,7 @@ class MatrixDescriptor extends React.Component {
       }
     }
 
-    const yoff = -cy/lc * 8;
+    const yoff = -cy/lc;
 
     let rdata = [].concat(...hexdata).slice()
 
@@ -107,8 +112,8 @@ class MatrixDescriptor extends React.Component {
     const off2 = this.state.yoff;
 
     return(
-      <div style={{display: 'inline-block', padding:'8px'}}>
-        <div style={{marginLeft: off, marginTop: off2}}>
+      <div onClick={this.handleChoose} className="zoom" style={{display: 'inline-block', height:'60px', width:'60px'}}>
+        <div style={{marginLeft: off*unitX, marginTop: off2*unitY}}>
           <canvas ref="canvas"/>
         </div>
       </div>
