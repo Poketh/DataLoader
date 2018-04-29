@@ -108,11 +108,12 @@ class MatrixDescriptor extends React.Component {
   }
 
   render(){
-    const off = this.state.xoff;
+    const off  = this.state.xoff;
     const off2 = this.state.yoff;
+    const caught = this.props.caught ? "zoom" : "zoom-gray";
 
     return(
-      <div onClick={this.handleChoose} className="zoom" style={{display: 'inline-block', height:'60px', width:'60px'}}>
+      <div onClick={this.handleChoose} className={caught} style={{display: 'inline-block', height:'60px', width:'60px'}}>
         <div style={{marginLeft: off*unitX, marginTop: off2*unitY}}>
           <canvas ref="canvas"/>
         </div>
