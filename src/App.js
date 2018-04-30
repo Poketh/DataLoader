@@ -55,21 +55,19 @@ class App extends Component {
 
     return (
       <div className="App">
-        <script>
-          console.log('hi');
-        </script>
         <Layout>
           <Header style={{background: styles.white}}>
             <Row type='flex' justify='space-between'>
               <Col span={1}><img style={{height:'50px', width:'auto'}} src={logo}/></Col>
-              <Col span={10}><h3 style={{color:styles.blue}}>Loaded balances from {address}.</h3></Col>
-              <Col span={3}>
+              <Col span={10}><h4 style={{color:styles.blue}}>Loaded balances from {address}.</h4></Col>
+              <Col span={6}>
                 <a href='#' style={{minWidth:'150px', padding:'10px', background: styles.orange, color: styles.blue}}>download miner</a>
               </Col>
               <Col span={3}><h3 style={{minWidth:'200px' ,textAlign:'right', color:styles.blue}}>{web3m}</h3></Col>
+              <Col span={1}></Col>
             </Row>
           </Header>
-          <Content style={{padding: '24px', background: styles.blue}}>
+          <Content style={{paddingTop:'32px', padding: '24px', background: styles.blue}}>
             <Row type='flex' gutter={16} justify='space-around'>
               <Col span={12} offset={0} style={{display: 'inline-block'}}>
                 { itemList.map((n) => <MatrixDescriptor getChoice={this.showDetail} key={n} num={n} caught={this.state.balances[n] > 0}/>) }
