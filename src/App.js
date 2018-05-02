@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Layout, Divider, Switch, Input, Tooltip } from 'antd';
+import { Row, Col, Layout, Divider, Switch, Input, Tooltip, Card } from 'antd';
 
 import MatrixDescriptor from './MatrixDescriptor.js';
 import './App.css';
@@ -79,7 +79,7 @@ class App extends Component {
           <Content style={{paddingTop:'32px', padding: '24px', background: styles.blue}}>
             <Row>
               <Col span={12}>
-                <h1 style={{color: styles.white}}>Load balance from </h1>
+                <h2 style={{color: styles.white}}>Load balance from </h2>
                 <Row>
                   <Col offset={1}>
                     <Search placeholder={'ETH Address'} onSearch={v => this.loadBalanceFor(v)} style={{width:'400px'}}/>
@@ -113,6 +113,21 @@ class App extends Component {
                     </Col>
                   </Row>
                 </Content>
+              </Col>
+            </Row>
+          </Content>
+          <Footer style={{background: styles.blue, textAlign: 'center'}}>
+            <Divider>
+              <img style={{width:'30px', height:'auto'}} src={logo}/> 
+            </Divider>
+          </Footer>
+          <Content style={{background: styles.blue}}>
+            <Row>
+              <Col span={4} offset={1}>
+                <h2 style={{color: styles.white}}>Instructions</h2>
+                <Card>
+                  <p>Mine an address</p>
+                </Card>  
               </Col>
             </Row>
           </Content>
