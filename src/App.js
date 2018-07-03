@@ -17,7 +17,7 @@ const itemList = Array(151).fill().map((x,i) => i+1);
 const unitX = 100;
 const unitY = 100;
 
-const pokethAddress = '0xee473f5cd7e7a199a0ce1b2995a10ed0cdb9a8c1';
+const pokethAddress = '0x2140e0a749878047196E379d2cF8812931a00f87';
 const styles = {
   'blue': '#003049',
   'red': '#D62828',
@@ -34,6 +34,7 @@ class App extends Component {
 
     this.showDetail = this.showDetail.bind(this);
     this.loadBalanceFor = this.loadBalanceFor.bind(this);
+    this.startTransfer = this.startTransfer.bind(this);
   }
 
   componentDidMount() {
@@ -45,12 +46,22 @@ class App extends Component {
   loadBalanceFor(address) {
     if(!/0x[a-f0-9]{40}/.test(address.toLowerCase())) address = window.web3.eth.accounts[0];
 
-    var balances = window.web3.eth.contract(abi).at(pokethAddress);
-    
+    let balances = window.web3.eth.contract(abi).at(pokethAddress);
+
     balances.balanceOf.call([address], (err, ans) => {
-        const balancesData = ans.map((v) => v.c[0])
-        this.setState({balances: balancesData})
-      });
+      const balancesData = ans.map((v) => v.c[0])
+      this.setState({balances: balancesData})
+    });
+  }
+
+  startTransfer(address) {
+    if(!/0x[a-f0-9]{40}/.test(address.toLowerCase())) address = window.web3.eth.accounts[0];
+
+    let pkth = window.web3.eth.contract(abi).at(pokethAddress);
+
+    pkth.transfer(address, this.state.num, {value:0, gas: 1000000}, (err, ans) => {
+      console.log(ans,err)
+    });
   }
 
   showDetail(id, name,c, xo, yo){
@@ -108,6 +119,13 @@ class App extends Component {
                         <h1 style={{color: styles.white, textAlign:'center'}}>{display}</h1>
                         <div style={{color: styles.white, textAlign:'center'}}>
                           <img style={{width:'30px', height:'auto'}} src={logo}/> x  {this.state.displayBalance}
+                          <br/>
+                          <Search
+                            placeholder="Receiver address"
+                            enterButton="Send"
+                            size="medium"
+                            onSearch={value => this.startTransfer(value)}
+                          />
                         </div>
                       </div>
                     </Col>
