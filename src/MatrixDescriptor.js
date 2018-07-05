@@ -26,11 +26,11 @@ class MatrixDescriptor extends React.Component {
     var MD = window.web3.eth.contract(abi).at('0x845c58071db537e86613525ee1c9a8b67ef47c86');
 
     MD.getItem.call([this.props.num], (err, ans) => {
-      this.paintCanvas(ans);
+      if(ans) this.paintCanvas(ans);
     });
 
     MD.getItemTitle.call([this.props.num], (err, ans) => {
-      this.setState({name: ans});
+      if(ans) this.setState({name: ans});
     });
   }
 

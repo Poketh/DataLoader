@@ -6,7 +6,7 @@ import './App.css';
 
 import { getWallet } from './Miner.js';
 
-import logo from './logo.png';
+import logo from './poketh-logo-border.png';
 import abi from './ERC891.json';
 
 const { Header, Footer, Content } = Layout;
@@ -19,6 +19,18 @@ const unitY = 100;
 
 const pokethAddress = '0x2140e0a749878047196E379d2cF8812931a00f87';
 const styles = {
+  "white":            "#EAEAEA",
+  "lightBlue":       "#00A8E8",
+  "lightBlueAlt":   "#00E8FF",
+  "midBlue":         "#007EA7",
+  "darkBlue":        "#687887",
+  "bgBlue":          "#43575D",
+
+  "bg":               "#181A1C",
+  "bgAlt":           "#1D1F21",
+}
+
+const styles_old = {
   'blue': '#003049',
   'red': '#D62828',
   'orange': '#F77F00',
@@ -76,18 +88,18 @@ class App extends Component {
     return (
       <div className="App">
         <Layout>
-          <Header style={{background: styles.white}}>
+          <Header style={{background: styles.midBlue}}>
             <Row type='flex' justify='space-between'>
               <Col span={1}><img style={{height:'50px', width:'auto'}} src={logo}/></Col>
-              <Col span={10}><h4 style={{color:styles.blue}}>Loaded balances from {pokethAddress}.</h4></Col>
+              <Col span={10}><h4 style={{color:styles.white}}>Loaded balances from {pokethAddress}.</h4></Col>
               <Col span={6}>
-                <a href='#' style={{minWidth:'150px', padding:'10px', background: styles.orange, color: styles.blue}}>download miner</a>
+                <a href='#' style={{minWidth:'150px', padding:'10px', background: styles.lightBlue, color: styles.bg}}>download miner</a>
               </Col>
-              <Col span={3}><h3 style={{minWidth:'200px' ,textAlign:'right', color:styles.blue}}>{web3m}</h3></Col>
+              <Col span={3}><h3 style={{minWidth:'200px' ,textAlign:'right', color:styles.white}}>{web3m}</h3></Col>
               <Col span={1}></Col>
             </Row>
           </Header>
-          <Content style={{paddingTop:'32px', padding: '24px', background: styles.blue}}>
+          <Content style={{paddingTop:'32px', padding: '24px', background: styles.bgAlt}}>
             <Row>
               <Col span={12}>
                 <h2 style={{color: styles.white}}>Load balance from </h2>
@@ -99,7 +111,7 @@ class App extends Component {
               </Col>
             </Row>
           </Content>
-          <Content style={{paddingTop:'32px', padding: '24px', background: styles.blue}}>
+          <Content style={{paddingTop:'32px', padding: '24px', background: styles.bgAlt}}>
             <Row type='flex' gutter={16} justify='space-around'>
               <Col span={12} offset={0} style={{display: 'inline-block'}}>
                 { itemList.map((n) => <MatrixDescriptor getChoice={this.showDetail} key={n} num={n} caught={this.state.balances[n] > 0}/>) }
@@ -108,24 +120,19 @@ class App extends Component {
                 <Content>
                   <Row type='flex' justify='center'>
                     <Col span={24}>
-                      <div style={{height:'500px', width:'500px', textAlign:'center'}}>
+                      <div className="displayWindow" style={{height:'500px', width:'500px', textAlign:'center'}}>
                         <img style={{marginLeft: this.state.xoff*unitX, marginTop: this.state.yoff*unitY}} className="dataDisplay" src={this.state.display}/>
-                      </div>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col span={24}>
-                      <div style={{width:'500px', padding:'24px'}}>
                         <h1 style={{color: styles.white, textAlign:'center'}}>{display}</h1>
                         <div style={{color: styles.white, textAlign:'center'}}>
                           <img style={{width:'30px', height:'auto'}} src={logo}/> x  {this.state.displayBalance}
-                          <br/>
-                          <Search
-                            placeholder="Receiver address"
-                            enterButton="Send"
-                            size="medium"
-                            onSearch={value => this.startTransfer(value)}
-                          />
+                          <div style={{paddingTop: '28px'}}>
+                            <Search
+                              placeholder="Receiver address"
+                              enterButton="Send"
+                              size="medium"
+                              onSearch={value => this.startTransfer(value)}
+                            />
+                          </div>
                         </div>
                       </div>
                     </Col>
@@ -134,12 +141,12 @@ class App extends Component {
               </Col>
             </Row>
           </Content>
-          <Footer style={{background: styles.blue, textAlign: 'center'}}>
+          <Footer style={{background: styles.midBlue, textAlign: 'center'}}>
             <Divider>
               <img style={{width:'30px', height:'auto'}} src={logo}/> 
             </Divider>
           </Footer>
-          <Content style={{background: styles.blue}}>
+          <Content style={{background: styles.midBlue}}>
             <Row>
               <Col span={4} offset={1}>
                 <h2 style={{color: styles.white}}>Instructions</h2>
@@ -149,8 +156,8 @@ class App extends Component {
               </Col>
             </Row>
           </Content>
-          <Footer style={{background: styles.blue, textAlign: 'center'}}>
-            <Divider style={{color: styles.red}}>
+          <Footer style={{background: styles.bgAlt, textAlign: 'center'}}>
+            <Divider style={{color: styles.lightBlue}}>
               <div style={{color: styles.white}}>Poketh Matrix Loader 2018</div>
             </Divider>
           </Footer>
