@@ -18,35 +18,36 @@ const unitX = 100;
 const unitY = 100;
 
 const pokethAddress = '0x2140e0a749878047196E379d2cF8812931a00f87';
-const styles = {
-  "white":            "#EAEAEA",
-  "lightBlue":       "#00A8E8",
-  "lightBlueAlt":   "#00E8FF",
-  "midBlue":         "#007EA7",
-  "darkBlue":        "#687887",
-  "bgBlue":          "#43575D",
 
-  "bg":               "#181A1C",
-  "bgAlt":           "#1D1F21",
+const styles = {
+  "white":              "#EAEAEA",
+  "lightBlue":          "#00A8E8",
+  "lightBlueAlt":       "#00E8FF",
+  "midBlue":            "#007EA7",
+  "darkBlue":           "#687887",
+  "bgBlue":             "#43575D",
+
+  "bg":                 "#181A1C",
+  "bgAlt":              "#1D1F21",
 }
 
 const styles_old = {
-  'blue': '#003049',
-  'red': '#D62828',
-  'orange': '#F77F00',
-  'yellow': '#FCBF49',
-  'white': '#EAE2B7'
+  'blue':       '#003049',
+  'red':        '#D62828',
+  'orange':     '#F77F00',
+  'yellow':     '#FCBF49',
+  'white':      '#EAE2B7'
 }
 
 class App extends Component {
   constructor(props){
     super(props);
 
-    this.state = {display: null, balances: [], displayBalance: '0', addressLookup: '0x0' }
+    this.state = { display: null, balances: [], displayBalance: '0', addressLookup: '0x0' }
 
-    this.showDetail = this.showDetail.bind(this);
+    this.showDetail     = this.showDetail.bind(this);
     this.loadBalanceFor = this.loadBalanceFor.bind(this);
-    this.startTransfer = this.startTransfer.bind(this);
+    this.startTransfer  = this.startTransfer.bind(this);
   }
 
   componentDidMount() {
@@ -89,11 +90,11 @@ class App extends Component {
       <div className="App">
         <Layout>
           <Header style={{background: styles.midBlue}}>
-            <Row type='flex' justify='space-between'>
-              <Col span={1}><img style={{height:'50px', width:'auto'}} src={logo}/></Col>
+            <Row type='flex' justify='left'>
+              <Col span={1}><img style={{height:'40px', width:'auto'}} src={logo}/></Col>
               <Col span={10}><h4 style={{color:styles.white}}>Loaded balances from {pokethAddress}.</h4></Col>
               <Col span={6}>
-                <a href='#' style={{minWidth:'150px', padding:'10px', background: styles.lightBlue, color: styles.bg}}>download miner</a>
+                <a href='#' style={{minWidth:'150px', padding:'10px', background: styles.lightBlue, color: styles.white}}>download miner</a>
               </Col>
               <Col span={3}><h3 style={{minWidth:'200px' ,textAlign:'right', color:styles.white}}>{web3m}</h3></Col>
               <Col span={1}></Col>
@@ -141,12 +142,12 @@ class App extends Component {
               </Col>
             </Row>
           </Content>
-          <Footer style={{background: styles.midBlue, textAlign: 'center'}}>
+          <Footer style={{background: styles.bg, textAlign: 'center'}}>
             <Divider>
               <img style={{width:'30px', height:'auto'}} src={logo}/> 
             </Divider>
           </Footer>
-          <Content style={{background: styles.midBlue}}>
+          <Content style={{background: styles.bgAlt, padding: '20px'}}>
             <Row>
               <Col span={4} offset={1}>
                 <h2 style={{color: styles.white}}>Instructions</h2>
