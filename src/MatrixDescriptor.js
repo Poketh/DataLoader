@@ -102,7 +102,7 @@ class MatrixDescriptor extends React.Component {
       data[i] = rdata[i];
     }
 
-    context.putImageData( imageData, 0, 0);
+    context.putImageData(imageData, 0, 0);
 
     this.setState({xoff: xoff, yoff: yoff});
   }

@@ -122,19 +122,11 @@ class App extends Component {
                   <Row type='flex' justify='center'>
                     <Col span={24}>
                       <div className="displayWindow" style={{height:'500px', width:'500px', textAlign:'center'}}>
-                        <img style={{marginLeft: this.state.xoff*unitX, marginTop: this.state.yoff*unitY}} className="dataDisplay" src={this.state.display}/>
                         <h1 style={{color: styles.white, textAlign:'center'}}>{display}</h1>
                         <div style={{color: styles.white, textAlign:'center'}}>
                           <img style={{width:'30px', height:'auto'}} src={logo}/> x  {this.state.displayBalance}
-                          <div style={{paddingTop: '28px'}}>
-                            <Search
-                              placeholder="Receiver address"
-                              enterButton="Send"
-                              size="medium"
-                              onSearch={value => this.startTransfer(value)}
-                            />
-                          </div>
                         </div>
+                        <img style={{marginLeft: this.state.xoff*unitX, marginTop: this.state.yoff*unitY}} className="dataDisplay" src={this.state.display}/>
                       </div>
                     </Col>
                   </Row>
