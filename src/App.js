@@ -126,7 +126,7 @@ class App extends Component {
                         <div style={{color: styles.white, textAlign:'center'}}>
                           <img style={{width:'30px', height:'auto'}} src={logo}/> x  {this.state.displayBalance}
                         </div>
-                        <img style={{marginLeft: this.state.xoff*unitX, marginTop: this.state.yoff*unitY}} className="dataDisplay" src={this.state.display}/>
+                        <img style={{marginLeft: this.state.xoff*unitX, marginTop: this.state.yoff*unitY}} className="dataDisplay animated bounce" src={this.state.display}/>
                       </div>
                     </Col>
                   </Row>
