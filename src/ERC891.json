@@ -466,6 +466,20 @@
 	},
 	{
 		"constant": true,
+		"inputs": [],
+		"name": "balances",
+		"outputs": [
+			{
+				"name": "",
+				"type": "address"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
 		"inputs": [
 			{
 				"name": "_add",
