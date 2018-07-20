@@ -1,18 +1,20 @@
 import React, { Component }   from 'react';
 import TextField              from '@material-ui/core/TextField';
 import { withStyles }         from '@material-ui/core/styles';
+import PropTypes              from 'prop-types';
 
+import PokethClassSnackbar    from './PokethClassSnackbar.js';
 
 const styles = theme => ({
   input: {
     fontSize: 12, 
-  }
+  },
 });
 
 class SignatureSubmit extends React.Component {
   render() {
     const { classes } = this.props;
-    
+
     return(
       <div className={"input-group input-group-sm mono"}>
         <div className="input-group-prepend">
@@ -26,14 +28,31 @@ class SignatureSubmit extends React.Component {
           aria-label="Signature"
           InputProps={{classes}}
           aria-describedby="basic-addon1"
-          onChange={(e) => {console.log(e.target.value)}}
+          onChange={this.props.handleChangeSignature}
           />
         <div className="input-group-append">
-          <button className="btn btn-dark" type="button" id="button-addon2">Submit</button>
+          <button
+            className="btn btn-dark"
+            type="button"
+            id="button-addon2"
+            onClick={this.props.handleClick}
+            >
+            Submit
+          </button>
         </div>
+        <PokethClassSnackbar
+          open={this.props.open}
+          handleSignature={this.props.handleSignature}
+          handleClose={this.props.handleClose}
+          pokethClass={this.props.pokethClass}
+          />
       </div>
     );
   }
 }
+
+SignatureSubmit.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
 
 export default withStyles(styles)(SignatureSubmit);

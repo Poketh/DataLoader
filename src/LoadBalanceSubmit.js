@@ -4,6 +4,8 @@ import TextField from '@material-ui/core/TextField';
 
 class LoadBalanceSubmit extends React.Component {
   render() {
+    const status = this.props.hasError ? "danger" : "success";
+
     return(
       <div className="input-group input-group-sm mono">
         <div className="input-group-prepend">
@@ -11,16 +13,16 @@ class LoadBalanceSubmit extends React.Component {
         </div>
         <TextField
           type="text"
+          id="textField1"
           name="address"
-          error={this.props.hasError}
           className="form-control"
           placeholder={this.props.coinbase}
           aria-label="ETH Address"
           aria-describedby="basic-addon1"
           onChange={this.props.onChange}
-        />
+          />
         <div className="input-group-append">
-          <button className="btn btn-dark" type="button" id="button-addon2">Load</button>
+          <label className={"input-group-text bg-"+status}></label> 
         </div>
       </div>
     );
