@@ -13,7 +13,7 @@
 body {
   background-color: var(--bg-alt);
   font-family: 'Roboto', sans-serif !important;
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
 * {
