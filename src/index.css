@@ -1,5 +1,23 @@
+:root{
+  --white:            #EAEAEA;
+  --light-blue:       #00A8E8;
+  --light-blue-alt:   #00E8FF;
+  --mid-blue:         #007EA7;
+  --dark-blue:        #687887;
+  --bg-blue:          #43575D;
+
+  --bg:               #181A1C;
+  --bg-alt:           #1D1F21;
+}
+
 body {
-  margin: 0;
-  padding: 0;
-  font-family: sans-serif;
+  background-color: var(--bg-alt);
+  font-family: 'Roboto', sans-serif !important;
+}
+
+* {
+  border-radius: 0 !important;
+}
+
+.form-control {
 }

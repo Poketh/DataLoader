@@ -1,23 +1,20 @@
 import React, { Component } from 'react';
-import { Row, Col, Layout, Divider, Switch, Input, Tooltip, Card } from 'antd';
 
-import MatrixDescriptor from './MatrixDescriptor.js';
+import MatrixDescriptor     from './MatrixDescriptor.js';
 import './App.css';
 
-import { getWallet } from './Miner.js';
+import logo                 from './poketh-logo-border.png';
+import abi                  from './ERC891.json';
 
-import logo from './poketh-logo-border.png';
-import abi from './ERC891.json';
+import Grid                 from '@material-ui/core/Grid';
+import Navbar               from './Navbar.js';
+import SignatureSubmit      from './SignatureSubmit.js';
+import LoadBalanceSubmit    from './LoadBalanceSubmit.js';
+import DataDisplay          from './DataDisplay.js';
 
-const { Header, Footer, Content } = Layout;
-const Search = Input.Search;
+const itemList      = Array(151).fill().map((x,i) => i+1);
 
-const itemList = Array(151).fill().map((x,i) => i+1);
-
-const unitX = 100;
-const unitY = 100;
-
-const pokethAddress = '0xBCdfDbE2bd6A48C5C0cC8e05b5bB9882e4B34447';
+const pokethAddress = '0x73019afe1da4bbe491b24fe6095ab8f1cd8bd05a';
 
 const styles = {
   "white":              "#EAEAEA",
@@ -26,18 +23,10 @@ const styles = {
   "midBlue":            "#007EA7",
   "darkBlue":           "#687887",
   "bgBlue":             "#43575D",
-
   "bg":                 "#181A1C",
   "bgAlt":              "#1D1F21",
 }
 
-const styles_old = {
-  'blue':       '#003049',
-  'red':        '#D62828',
-  'orange':     '#F77F00',
-  'yellow':     '#FCBF49',
-  'white':      '#EAE2B7'
-}
 
 class App extends Component {
   constructor(props){
@@ -48,6 +37,8 @@ class App extends Component {
     this.showDetail     = this.showDetail.bind(this);
     this.loadBalanceFor = this.loadBalanceFor.bind(this);
     this.startTransfer  = this.startTransfer.bind(this);
+    this.checkFind      = this.checkFind.bind(this);
+    this.handleChange   = this.handleChange.bind(this);
   }
 
   componentDidMount() {
@@ -56,8 +47,18 @@ class App extends Component {
     });
   }
 
+  handleChange(e) {
+    console.log(e.target.value)
+    this.loadBalanceFor(e.target.value);
+  }
+
   loadBalanceFor(address) {
-    if(!/0x[a-f0-9]{40}/.test(address.toLowerCase())) address = window.web3.eth.accounts[0];
+    if(!/0x[a-f0-9]{40}/.test(address.toLowerCase())){
+      address = window.web3.eth.accounts[0];
+      this.setState({hasError: true});
+    } else {
+      this.setState({hasError: false});
+    }
 
     let balances = window.web3.eth.contract(abi).at(pokethAddress);
 
@@ -77,87 +78,65 @@ class App extends Component {
     });
   }
 
+  checkFind(address) {
+    if(!/0x[a-f0-9]{40}/.test(address.toLowerCase())) address = window.web3.eth.accounts[0];
+
+    let pkth = window.web3.eth.contract(abi).at(pokethAddress);
+
+    pkth.checkFind(address, (err, ans) => {
+      console.log(ans,err)
+    });
+  }
+
   showDetail(id, name,c, xo, yo){
     const balancesData = this.state.balances ? this.state.balances[id] : "???";
     this.setState({display: c.toDataURL(), displayName: name, xoff: xo, yoff: yo, num: id, displayBalance: balancesData});
   }
 
   render() {
-    const display = this.state.num ? this.state.num + ". " + this.state.displayName : "";
-    const web3m = window.web3 ? "web3 connected" : "No web3 connection";
+    const display       = this.state.num ? this.state.num + ". " + this.state.displayName : "";
+    const web3m         = window.web3 ? "web3 connected" : "No web3 connection";
+    const white         = styles.white;
+    const balance       = this.state.displayBalance;
 
     return (
       <div className="App">
-        <Layout>
-          <Header style={{background: styles.midBlue}}>
-            <Row type='flex' justify='left'>
-              <Col span={1}><img style={{height:'40px', width:'auto'}} src={logo}/></Col>
-              <Col span={10}><h4 style={{color:styles.white}}>Loaded balances from {pokethAddress}.</h4></Col>
-              <Col span={6}>
-                <a href='#' style={{minWidth:'150px', padding:'10px', background: styles.lightBlue, color: styles.white}}>download miner</a>
-              </Col>
-              <Col span={3}><h3 style={{minWidth:'200px' ,textAlign:'right', color:styles.white}}>{web3m}</h3></Col>
-              <Col span={1}></Col>
-            </Row>
-          </Header>
-          <Content style={{paddingTop:'32px', padding: '24px', background: styles.bgAlt}}>
-            <Row>
-              <Col span={12}>
-                <h2 style={{color: styles.white}}>Load balance from </h2>
-                <Row>
-                  <Col offset={1}>
-                    <Search placeholder={'ETH Address'} onSearch={v => this.loadBalanceFor(v)} style={{width:'400px'}}/>
-                  </Col>
-                </Row>
-              </Col>
-            </Row>
-          </Content>
-          <Content style={{paddingTop:'32px', padding: '24px', background: styles.bgAlt}}>
-            <Row type='flex' gutter={16} justify='space-around'>
-              <Col span={12} offset={0} style={{display: 'inline-block'}}>
-                { itemList.map((n) => <MatrixDescriptor getChoice={this.showDetail} key={n} num={n} caught={this.state.balances[n] > 0}/>) }
-              </Col>
-              <Col span={12} offset={0} style={{display: 'inline-block'}}>
-                <Content>
-                  <Row type='flex' justify='center'>
-                    <Col span={24}>
-                      <div className="displayWindow" style={{height:'500px', width:'500px', textAlign:'center'}}>
-                        <h1 style={{color: styles.white, textAlign:'center'}}>{display}</h1>
-                        <div style={{color: styles.white, textAlign:'center'}}>
-                          <img style={{width:'30px', height:'auto'}} src={logo}/> x  {this.state.displayBalance}
-                        </div>
-                        <img style={{marginLeft: this.state.xoff*unitX, marginTop: this.state.yoff*unitY}} className="dataDisplay animated bounce" src={this.state.display}/>
-                      </div>
-                    </Col>
-                  </Row>
-                </Content>
-              </Col>
-            </Row>
-          </Content>
-          <Footer style={{background: styles.bg, textAlign: 'center'}}>
-            <Divider>
-              <img style={{width:'30px', height:'auto'}} src={logo}/> 
-            </Divider>
-          </Footer>
-          <Content style={{background: styles.bgAlt, padding: '20px'}}>
-            <Row>
-              <Col span={4} offset={1}>
-                <h2 style={{color: styles.white}}>Instructions</h2>
-                <Card>
-                  <p>Mine an address</p>
-                </Card>  
-              </Col>
-            </Row>
-          </Content>
-          <Footer style={{background: styles.bgAlt, textAlign: 'center'}}>
-            <Divider style={{color: styles.lightBlue}}>
-              <div style={{color: styles.white}}>Poketh Matrix Loader 2018</div>
-            </Divider>
-          </Footer>
-        </Layout>
+        <Navbar logo={logo} web3m={web3m}/>
+        <Grid container className={'px-3 pt-3'} spacing={8}>
+          <Grid item sm={5}>
+            <LoadBalanceSubmit
+              onChange={this.handleChange}  
+              hasError={this.state.hasError}
+              />
+          </Grid>
+          <Grid item sm={7}>
+            <SignatureSubmit />
+          </Grid>
+
+          <Grid item sm={5} className={'poketh-display p-5'}>
+            <DataDisplay
+              logo={logo}
+              display={display}
+              displayImg={this.state.display}
+              displayBalance={balance}
+              white={white}
+              />
+          </Grid>
+          <Grid item sm={7} style={{display: 'inline-block'}}>
+            { itemList.map((n) =>
+                           <MatrixDescriptor
+                             getChoice={this.showDetail}
+                             key={n}
+                             num={n}
+                             caught={this.state.balances[n] > 0}
+                             />)
+                           }
+          </Grid>
+        </Grid>
       </div>
     );
   }
 }
+
 
 export default App;

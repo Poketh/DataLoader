@@ -1,28 +1,58 @@
-@import '~antd/dist/antd.css';
-@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,700,900');
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500');
+@import url('https://fonts.googleapis.com/css?family=Roboto+Mono');
 
-:root {
-  --display-height: 200px;
-  --factor: 1.25;
-}
 
-body {
-  background: #003049;
-  font-family: 'Roboto', sans-serif;
-  font-weight: 300;
-}
+.data-display {
+  width: auto;
+  height: 300px;
 
-.displayWindow {
-  position: fixed;
-  top: 120px;
-  right: 30px;
-}
-
-.dataDisplay {
-  width: calc(var(--factor) * var(--display-height));
-  height: var(--display-height);
   image-rendering: -moz-crisp-edges;
   image-rendering: -webkit-crisp-edges;
   image-rendering: pixelated;
   image-rendering: crisp-edges;
+}
+
+.poketh-display {
+  display: inline-block;
+  text-align: center;
+}
+
+.sticky-display {
+  position: -webkit-sticky; /* Safari */
+  position: sticky;
+  top: 100px;
+}
+
+.mono {
+  font-family: 'Roboto Mono', monospace;
+}
+
+@media only screen and (max-width: 600px) {
+  .data-display {
+    height: 100px;
+  }
+} 
+
+@media only screen and (min-width: 600px) {
+  .data-display {
+    height: 150px;
+  }
+} 
+
+@media only screen and (min-width: 768px) {
+  .data-display {
+    height: 200px;
+  }
+} 
+
+@media only screen and (min-width: 992px) {
+  .data-display {
+    height: 250px;
+  }
+} 
+
+@media only screen and (min-width: 1200px) {
+  .data-display {
+    height: 300px;
+  }
 }

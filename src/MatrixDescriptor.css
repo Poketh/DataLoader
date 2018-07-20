@@ -1,8 +1,7 @@
 @import '~antd/dist/antd.css';
 
 canvas {  
-  width: 50px;
-  height: 40px;
+  width: auto;
   image-rendering: -moz-crisp-edges;
   image-rendering: -webkit-crisp-edges;
   image-rendering: pixelated;
