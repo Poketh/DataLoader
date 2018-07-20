@@ -99,7 +99,6 @@ class App extends Component {
 
   render() {
     const display       = this.state.num ? this.state.num + ". " + this.state.displayName : "";
-    const web3m         = this.web3 ? "web3 connected" : "No web3 connection";
     const white         = styles.white;
     const balance       = this.state.displayBalance;
     const coinbase      = this.state.coinbase;
@@ -108,7 +107,7 @@ class App extends Component {
       <div className="App">
         <Navbar
           logo={logo}
-          web3m={web3m}
+          web3={this.web3}
           contract={pokethAddress}
         />
         <Grid container className={'px-3 pt-3'} spacing={8}>

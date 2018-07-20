@@ -19,6 +19,9 @@ class LoadBalanceSubmit extends React.Component {
           aria-describedby="basic-addon1"
           onChange={this.props.onChange}
         />
+        <div className="input-group-append">
+          <button className="btn btn-dark" type="button" id="button-addon2">Load</button>
+        </div>
       </div>
     );
   }

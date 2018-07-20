@@ -6,6 +6,8 @@ import registerServiceWorker    from './registerServiceWorker';
 
 import './include/bootstrap';
 import './index.css';
+import 'status-indicator/styles.css'
+
 
 ReactDOM.render(
     <App />, 
