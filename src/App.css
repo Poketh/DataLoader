@@ -31,11 +31,17 @@
   .data-display {
     height: 100px;
   }
+  .navbar-text-change {
+    font-size: 13px;
+  }
 } 
 
 @media only screen and (min-width: 600px) {
   .data-display {
     height: 150px;
+  }
+  .navbar-text-change {
+    font-size: 14px;
   }
 } 
 
@@ -43,16 +49,25 @@
   .data-display {
     height: 200px;
   }
+  .navbar-text-change {
+    font-size: 15px;
+  }
 } 
 
 @media only screen and (min-width: 992px) {
   .data-display {
     height: 250px;
   }
+  .navbar-text-change {
+    font-size: 16px;
+  }
 } 
 
 @media only screen and (min-width: 1200px) {
   .data-display {
     height: 300px;
+  }
+  .navbar-text-change {
+    font-size: 16px;
   }
 }
