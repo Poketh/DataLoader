@@ -109,18 +109,18 @@ class App extends Component {
           contract={pokethAddress}
         />
         <Grid container className={'px-3 pt-3'} spacing={8}>
-          <Grid item sm={5}>
-            <LoadBalanceSubmit
+          <Grid item lg={5} xs={12} className={'stacked-min'}>
+            <LoadBalanceSubmit 
               onChange={this.handleChange}  
               hasError={this.state.hasError}
               coinbase={this.state.coinbase}
               />
           </Grid>
-          <Grid item sm={7}>
+          <Grid item lg={7} xs={12} className={'stacked-min'}>
             <SignatureSubmit />
           </Grid>
 
-          <Grid item sm={5} className={'poketh-display p-4'}>
+          <Grid item lg={5} xs={12} className={'poketh-display p-4 stacked-min'}>
             <DataDisplay
               logo={logo}
               display={display}
@@ -129,14 +129,14 @@ class App extends Component {
               white={white}
               />
           </Grid>
-          <Grid item sm={7} className={'p-4 mt-2'} style={{display: 'inline-block'}}>
+          <Grid item lg={7} xs={12} className={'p-4 mt-2 stacked-min'} style={{display: 'inline-block', textAlign: 'center'}}>
             { itemList.map((n) =>
                            <MatrixDescriptor
                              getChoice={this.showDetail}
                              key={n}
                              num={n}
                              caught={this.state.balances[n] > 0}
-                             />)
+                            />)
                            }
           </Grid>
         </Grid>

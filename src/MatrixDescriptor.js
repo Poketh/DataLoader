@@ -90,14 +90,14 @@ class MatrixDescriptor extends React.Component {
 
   render(){
 
-    const sx      = this.state.sx;
+    const sx      = this.state.sx || 5;
     const sy      = this.state.sy;
     const caught  = this.props.caught ? "zoom" : "zoom-gray";
 
     return(
       <div
         onClick={this.handleChoose}
-        className={caught + ' ' + 'animated bounce'} 
+        className={caught + ' animated bounce pixel-frame'} 
         style={{display: 'inline-block', textAlign: 'center'}}
       >
         <canvas ref="canvas" style={{width: sx * 10}}/>

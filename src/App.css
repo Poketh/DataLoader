@@ -29,7 +29,7 @@
 
 @media only screen and (max-width: 600px) {
   .data-display {
-    height: 100px;
+    height: 150px;
   }
   .navbar-text-change {
     font-size: 13px;

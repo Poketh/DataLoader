@@ -11,9 +11,9 @@ class Navbar extends React.Component {
           <span className="navbar-toggler-icon"></span>
         </button>
         <div className="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item mr-auto mono">
-              <a class="nav-link navbar-text-change"
+          <ul className="navbar-nav mr-auto">
+            <li className="nav-item mr-auto mono">
+              <a className="nav-link navbar-text-change"
                 target="_blank"
                 href={"https://etherscan.io/address/" + this.props.contract}
               >
