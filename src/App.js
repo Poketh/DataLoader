@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import Web3                 from 'web3';
+
 
 import MatrixDescriptor     from './MatrixDescriptor.js';
 import './App.css';
@@ -39,52 +41,53 @@ class App extends Component {
     this.startTransfer  = this.startTransfer.bind(this);
     this.checkFind      = this.checkFind.bind(this);
     this.handleChange   = this.handleChange.bind(this);
+    
+    this.web3           = new Web3(Web3.givenProvider || 'https://kovan.infura.io/metamask');
+    this.pokethContract = new this.web3.eth.Contract(abi,pokethAddress);
+
   }
 
   componentDidMount() {
-    window.web3.eth.getAccounts((e,a) => {
-      this.loadBalanceFor(a[0]);
-      this.setState({coinbase: a[0]})
+    this.web3.eth.getAccounts((e,a) => {
+      const coinbase = a.length === 0 ? 'no address' : a[0];
+      this.loadBalanceFor(coinbase);
+      this.setState({coinbase: coinbase})
     });
   }
 
   handleChange(e) {
-    console.log(e.target.value)
     this.loadBalanceFor(e.target.value);
   }
 
   loadBalanceFor(address) {
+    console.log(address)
     if(!/0x[a-f0-9]{40}/.test(address.toLowerCase())){
       this.setState({hasError: true && address !== ''});
-      address = window.web3.eth.accounts[0];
+      address = this.web3.eth.accounts[0];
     } else {
       this.setState({hasError: false});
     }
 
-    let balances = window.web3.eth.contract(abi).at(pokethAddress);
 
-    balances.balanceOf.call([address], (err, ans) => {
-      const balancesData = ans.map((v) => v.c[0])
+    this.pokethContract.methods.balanceOf(address).call((err, ans) => {
+      const balancesData = ans;
       this.setState({balances: balancesData})
     });
   }
 
   startTransfer(address) {
-    if(!/0x[a-f0-9]{40}/.test(address.toLowerCase())) address = window.web3.eth.accounts[0];
+    if(!/0x[a-f0-9]{40}/.test(address.toLowerCase())) address = this.web3.eth.accounts[0];
 
-    let pkth = window.web3.eth.contract(abi).at(pokethAddress);
 
-    pkth.transfer(address, this.state.num, {value:0, gas: 1000000}, (err, ans) => {
+    this.pokethContract.transfer(address, this.state.num, {value:0, gas: 1000000}, (err, ans) => {
       console.log(ans,err)
     });
   }
 
   checkFind(address) {
-    if(!/0x[a-f0-9]{40}/.test(address.toLowerCase())) address = window.web3.eth.accounts[0];
+    if(!/0x[a-f0-9]{40}/.test(address.toLowerCase())) address = this.web3.eth.accounts[0];
 
-    let pkth = window.web3.eth.contract(abi).at(pokethAddress);
-
-    pkth.checkFind(address, (err, ans) => {
+    this.pokethContract.checkFind(address, (err, ans) => {
       console.log(ans,err)
     });
   }
@@ -96,7 +99,7 @@ class App extends Component {
 
   render() {
     const display       = this.state.num ? this.state.num + ". " + this.state.displayName : "";
-    const web3m         = window.web3 ? "web3 connected" : "No web3 connection";
+    const web3m         = this.web3 ? "web3 connected" : "No web3 connection";
     const white         = styles.white;
     const balance       = this.state.displayBalance;
     const coinbase      = this.state.coinbase;
@@ -136,6 +139,7 @@ class App extends Component {
                              key={n}
                              num={n}
                              caught={this.state.balances[n] > 0}
+                             web3={this.web3}
                             />)
                            }
           </Grid>

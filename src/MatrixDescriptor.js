@@ -18,13 +18,13 @@ class MatrixDescriptor extends React.Component {
   }
 
   componentDidMount(){
-    var MD = window.web3.eth.contract(abi).at('0x845c58071db537e86613525ee1c9a8b67ef47c86');
+    var MD = new this.props.web3.eth.Contract(abi,'0x845c58071db537e86613525ee1c9a8b67ef47c86');
 
-    MD.getItem.call([this.props.num], (err, ans) => {
+    MD.methods.getItem(this.props.num).call((err, ans) => {
       if(ans) this.paintCanvas(ans);
     });
 
-    MD.getItemTitle.call([this.props.num], (err, ans) => {
+    MD.methods.getItemTitle(this.props.num).call((err, ans) => {
       if(ans) this.setState({name: ans});
     });
   }
@@ -38,13 +38,13 @@ class MatrixDescriptor extends React.Component {
   }
 
   paintCanvas(ans){
-    let raw = ans.map(i => i['c'][0]);
-
+    let raw = ans;
+    
     let sx = 5;
     let sy = 4;
 
     let hexdata = raw.map(d => {
-      return [(0xFF0000 & d) >> 16, (0x00FF00 & d) >> 8, 0x0000FF & d, d === 0 ? 0 : 255]
+      return [(0xFF0000 & d) >> 16, (0x00FF00 & d) >> 8, 0x0000FF & d, d === '0' ? 0 : 255]
     })
     
 
@@ -54,7 +54,7 @@ class MatrixDescriptor extends React.Component {
     let nsx = 1, nsy = 1;
     for(let i = 1; i < 5; i++){
       for(let j = 1; j < 4; j++){
-        if(raw[j*5-i] !== 0){
+        if(raw[j*5-i] !== '0'){
           nsx = 6-i;
           i = j = 100;
         }
@@ -63,7 +63,7 @@ class MatrixDescriptor extends React.Component {
 
     for(let i = 4; i > 0; i--){
       for(let j = 5; j > 0; j--){
-        if(raw[i*5-j] !== 0){
+        if(raw[i*5-j] !== '0'){
           nsy = i;
           i = j = 0;
         }
