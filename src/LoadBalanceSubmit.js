@@ -14,7 +14,7 @@ class LoadBalanceSubmit extends React.Component {
           name="address"
           error={this.props.hasError}
           className="form-control"
-          placeholder="F7Dc813B5c746F777DD29c94b7558ADE7577064e"
+          placeholder={this.props.coinbase}
           aria-label="ETH Address"
           aria-describedby="basic-addon1"
           onChange={this.props.onChange}

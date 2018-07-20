@@ -14,6 +14,9 @@ class Navbar extends React.Component {
           <span className="navbar-text mr-auto">
             <span>Poketh</span>
           </span>
+          <span className="navbar-text mono mr-auto">
+            Contract: {this.props.contract}
+          </span>
           <span className="navbar-text">
             {this.props.web3m}
           </span>

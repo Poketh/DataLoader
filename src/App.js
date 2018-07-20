@@ -44,6 +44,7 @@ class App extends Component {
   componentDidMount() {
     window.web3.eth.getAccounts((e,a) => {
       this.loadBalanceFor(a[0]);
+      this.setState({coinbase: a[0]})
     });
   }
 
@@ -54,8 +55,8 @@ class App extends Component {
 
   loadBalanceFor(address) {
     if(!/0x[a-f0-9]{40}/.test(address.toLowerCase())){
+      this.setState({hasError: true && address !== ''});
       address = window.web3.eth.accounts[0];
-      this.setState({hasError: true});
     } else {
       this.setState({hasError: false});
     }
@@ -98,22 +99,28 @@ class App extends Component {
     const web3m         = window.web3 ? "web3 connected" : "No web3 connection";
     const white         = styles.white;
     const balance       = this.state.displayBalance;
+    const coinbase      = this.state.coinbase;
 
     return (
       <div className="App">
-        <Navbar logo={logo} web3m={web3m}/>
+        <Navbar
+          logo={logo}
+          web3m={web3m}
+          contract={pokethAddress}
+        />
         <Grid container className={'px-3 pt-3'} spacing={8}>
           <Grid item sm={5}>
             <LoadBalanceSubmit
               onChange={this.handleChange}  
               hasError={this.state.hasError}
+              coinbase={this.state.coinbase}
               />
           </Grid>
           <Grid item sm={7}>
             <SignatureSubmit />
           </Grid>
 
-          <Grid item sm={5} className={'poketh-display p-5'}>
+          <Grid item sm={5} className={'poketh-display p-4'}>
             <DataDisplay
               logo={logo}
               display={display}
@@ -122,7 +129,7 @@ class App extends Component {
               white={white}
               />
           </Grid>
-          <Grid item sm={7} style={{display: 'inline-block'}}>
+          <Grid item sm={7} className={'p-4 mt-2'} style={{display: 'inline-block'}}>
             { itemList.map((n) =>
                            <MatrixDescriptor
                              getChoice={this.showDetail}
