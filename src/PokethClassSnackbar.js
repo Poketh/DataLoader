@@ -30,13 +30,21 @@ const styles = theme => ({
 
 class PokethClassSnackbar extends React.Component {
   render() {
-    const { classes } = this.props;
-    const classMsg    = "Poketh Class " + this.props.pokethClass;
-    const errorMsg    = "No wallet available";
-    const noAddress   = this.props.coinbase === 'no address';
-    const icon        = noAddress ? <Icon className={classes.rightIcon}>close</Icon> : <Icon className={classes.rightIcon}>arrow_forward_ios</Icon>;
-    const btnMsg      = noAddress ? "Dismiss" : "Collect";
+    const { classes }     = this.props;
     
+    const noAddress       = this.props.coinbase === 'no address';
+    const noClass         = this.props.pokethClass === undefined;
+
+    const classMsg        = "Poketh Class " + this.props.pokethClass;
+    const errorMsgAddr    = "No wallet available";
+    const errorMsgClass   = "Error fetching. Check the signature.";
+    
+    const msg             = noAddress ? errorMsgAddr : (noClass ? errorMsgClass : classMsg);
+
+    
+    const icon            = noAddress || noClass ? <Icon className={classes.rightIcon}>close</Icon> : <Icon className={classes.rightIcon}>arrow_forward_ios</Icon>;
+    const btnMsg          = noAddress || noClass ? "Dismiss" : "Collect";
+
     return (
       <Snackbar
         anchorOrigin={{
@@ -50,8 +58,8 @@ class PokethClassSnackbar extends React.Component {
         }}
         >
         <SnackbarContent
-          className={noAddress ? classes.error : classes.submit}
-          message={<span id="message-id">{noAddress ? errorMsg : classMsg}</span>}
+          className={noAddress || noClass ? classes.error : classes.submit}
+          message={<span id="message-id">{msg}</span>}
           action={[
             <Button
               key="submit"

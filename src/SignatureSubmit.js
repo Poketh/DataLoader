@@ -7,7 +7,8 @@ import PokethClassSnackbar    from './PokethClassSnackbar.js';
 
 const styles = theme => ({
   input: {
-    fontSize: 12, 
+    fontSize: 11,
+    fontFamily: 'Roboto Mono',
   },
 });
 
@@ -24,7 +25,7 @@ class SignatureSubmit extends React.Component {
           type="text"
           name="signature"
           className={"form-control"}
-          placeholder={"ef68d9d38ce151f13a6c8fad101b4d300e5e93155b4026378449ab455f2f9c4c127b21cf1ebdbf72e5cb49bc115f49003270e88358bf65f4c79b416af76f57311b"}
+          placeholder={"0xef68d9d38ce151f13a6c8fad101b4d300e5e93155b4026378449ab455f2f9c4c127b21cf1ebdbf72e5cb49bc115f49003270e88358bf65f4c79b416af76f57311b"}
           aria-label="Signature"
           InputProps={{classes}}
           aria-describedby="basic-addon1"

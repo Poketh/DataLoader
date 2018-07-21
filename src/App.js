@@ -40,7 +40,6 @@ class App extends Component {
     this.state = { display: null, balances: [], displayBalance: '0', addressLookup: '0x0', open: false, coinbase: 'no address', }
 
     this.showDetail             = this.showDetail.bind(this);
-    this.startTransfer          = this.startTransfer.bind(this);
     this.loadBalanceFor         = this.loadBalanceFor.bind(this);
 
     this.handleChange           = this.handleChange.bind(this);
@@ -63,6 +62,8 @@ class App extends Component {
     });
   }
 
+  /* ------------------------ Start Snackbar ------------------------ */
+  
   handleClickSnackbar() {
     this.setState({ open: true });
   };
@@ -71,13 +72,13 @@ class App extends Component {
     if (reason === 'clickaway') {
       return;
     }
-
     this.setState({ open: false });
   };
+  
+  /* ------------------------- End Snackbar ------------------------- */
 
-  handleChange(e) {
-    this.loadBalanceFor(e.target.value);
-  }
+
+  /* ----------------------- Start Signature  ----------------------- */
 
   handleChangeSignature(e) {
     const signature = e.target.value;
@@ -96,12 +97,20 @@ class App extends Component {
   handleSignature(e) {
     this.handleCloseSnackbar();
 
-    if(this.web3.utils.isAddress(this.state.coinbase)){
+    if(this.web3.utils.isAddress(this.state.coinbase) && this.state.signature){
       this.pokethContract.methods.claimWithSignature(this.state.signature).send({ from: this.state.coinbase, gasPrice: 5000000000 })
         .on('confirmation', () => {
         this.loadBalanceFor(this.state.coinbase);  
       });
     }
+  }
+  
+  /* ------------------------ End Signature  ------------------------ */
+  
+  /* ------------------------ Start Address  ------------------------ */
+
+   handleChange(e) {
+    this.loadBalanceFor(e.target.value);
   }
 
   loadBalanceFor(address) {
@@ -120,20 +129,14 @@ class App extends Component {
       });
     }
   }
-
-  startTransfer(address) {
-    if(!/0x[a-f0-9]{40}/.test(address.toLowerCase())) address = this.web3.eth.accounts[0];
-
-
-    this.pokethContract.transfer(address, this.state.num, {value:0, gas: 1000000}, (err, ans) => {
-      console.log(ans,err)
-    });
-  }
-
+  
   showDetail(id, name,c, xo, yo){
     const balancesData = this.state.balances ? this.state.balances[id] : "???";
     this.setState({display: c.toDataURL(), displayName: name, xoff: xo, yoff: yo, num: id, displayBalance: balancesData});
   }
+  
+  /* ------------------------- End Address  ------------------------- */
+
 
   render() {
     const display       = this.state.num ? this.state.num + ". " + this.state.displayName : "";

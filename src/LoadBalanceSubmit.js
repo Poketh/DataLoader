@@ -17,6 +17,9 @@ const styles = theme => ({
   icon: {
     color: "#FFFFFF",
   },
+  input: {
+    fontFamily: 'Roboto Mono',
+  }
 });
 
 class LoadBalanceSubmit extends React.Component {
@@ -36,6 +39,9 @@ class LoadBalanceSubmit extends React.Component {
           id="textField1"
           name="address"
           className="form-control"
+          InputProps={{
+            className: classes.input
+          }}
           placeholder={this.props.coinbase}
           aria-label="ETH Address"
           aria-describedby="basic-addon1"
