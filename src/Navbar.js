@@ -1,9 +1,31 @@
 import React, { Component } from 'react';
+import Tooltip              from '@material-ui/core/Tooltip';
+import { withStyles }       from '@material-ui/core/styles';
+import PropTypes            from 'prop-types';
+
+const styles = theme => ({
+  tooltipHelp: {
+    background: theme.palette.common.white,
+    color: theme.palette.common.black,
+    boxShadow: theme.shadows[1],
+    fontSize: 14,
+  },
+});
 
 class Navbar extends React.Component {
   render() {
-    const web3m   = this.props.web3 ? "web3 connected" : "No web3 connection";
-    const status  = this.props.web3 ? <status-indicator positive></status-indicator> : <status-indicator negative></status-indicator>
+    const { classes } = this.props;
+
+
+    const web3m       = this.props.web3 ? "web3 connected" : "No web3 connection";
+
+    const status      = this.props.web3.utils.isAddress(this.props.coinbase) 
+    ? <status-indicator positive pulse></status-indicator>
+          : <status-indicator intermediary></status-indicator>;
+
+    const statusMsg   = this.props.web3.utils.isAddress(this.props.coinbase)
+    ? "Wallet Available"
+          : "No Wallet Available";
 
     return(
       <nav className="sticky-top navbar navbar-dark bg-dark navbar-expand-lg">
@@ -19,13 +41,16 @@ class Navbar extends React.Component {
               <a className="nav-link navbar-text-change"
                 target="_blank"
                 href={"https://etherscan.io/address/" + this.props.contract}
-              >
+                >
                 Contract: {this.props.contract}
               </a>
             </li>
           </ul>
           <span className="navbar-text navbar-text-change">
-            {web3m}  {status}
+            <span className="mr-3">{web3m}</span>
+            <Tooltip classes={{ tooltip: classes.tooltipHelp }} title={statusMsg}>
+              <span className="mr-3">{status}</span>
+            </Tooltip>
           </span>
         </div>
       </nav>
@@ -33,4 +58,8 @@ class Navbar extends React.Component {
   }
 }
 
-export default Navbar;
+Navbar.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(Navbar);

@@ -21,14 +21,22 @@ const styles = theme => ({
     marginLeft: theme.spacing.unit,
   },
   submit: {
-    backgroundColor: "#EAEAEA",
-    color: "#1D1F21",
+    backgroundColor: theme.palette.primary.dark,
+  },
+  error: {
+    backgroundColor: theme.palette.error.dark,
   },
 });
 
 class PokethClassSnackbar extends React.Component {
   render() {
     const { classes } = this.props;
+    const classMsg    = "Poketh Class " + this.props.pokethClass;
+    const errorMsg    = "No wallet available";
+    const noAddress   = this.props.coinbase === 'no address';
+    const icon        = noAddress ? <Icon className={classes.rightIcon}>close</Icon> : <Icon className={classes.rightIcon}>arrow_forward_ios</Icon>;
+    const btnMsg      = noAddress ? "Dismiss" : "Collect";
+    
     return (
       <Snackbar
         anchorOrigin={{
@@ -40,23 +48,21 @@ class PokethClassSnackbar extends React.Component {
         ContentProps={{
           'aria-describedby': 'message-id',
         }}
-      >
+        >
         <SnackbarContent
-          className={classes.submit}
-          message={<span id="message-id">Poketh Class {this.props.pokethClass}</span>}
+          className={noAddress ? classes.error : classes.submit}
+          message={<span id="message-id">{noAddress ? errorMsg : classMsg}</span>}
           action={[
             <Button
               key="submit"
               variant="contained"
-              color="primary"
-              className={classes.button}
               onClick={this.props.handleSignature}
-            >
-              Collect 
-              <Icon className={classes.rightIcon}>arrow_forward_ios</Icon>
+              >
+              {btnMsg} 
+              {icon}
             </Button>,
           ]}
-        />
+          />
       </Snackbar>
 
     );

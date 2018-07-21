@@ -45,6 +45,7 @@ class SignatureSubmit extends React.Component {
           handleSignature={this.props.handleSignature}
           handleClose={this.props.handleClose}
           pokethClass={this.props.pokethClass}
+          coinbase={this.props.coinbase}
           />
       </div>
     );

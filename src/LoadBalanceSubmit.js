@@ -1,10 +1,30 @@
 import React, { Component } from 'react';
-import TextField from '@material-ui/core/TextField';
+import TextField            from '@material-ui/core/TextField';
+import Tooltip              from '@material-ui/core/Tooltip';
+import { withStyles }       from '@material-ui/core/styles';
+import PropTypes            from 'prop-types';
+import IconButton           from '@material-ui/core/IconButton';
+import Icon                 from '@material-ui/core/Icon';
+import CloseIcon            from '@material-ui/icons/Close';
 
+const styles = theme => ({
+  tooltipHelp: {
+    background: theme.palette.common.white,
+    color: theme.palette.common.black,
+    boxShadow: theme.shadows[1],
+    fontSize: 14,
+  },
+  icon: {
+    color: "#FFFFFF",
+  },
+});
 
 class LoadBalanceSubmit extends React.Component {
   render() {
-    const status = this.props.hasError ? "danger" : "success";
+    const { classes } = this.props;
+    const status      = this.props.hasError ? "danger" : "success";
+    const statusMsg   = this.props.hasError ? "Invalid address (Loading coinbase)" : "Valid address";
+    const icon        = this.props.hasError ? <Icon className={classes.icon}>error</Icon> : <Icon className={classes.icon}>check_circle</Icon>;
 
     return(
       <div className="input-group input-group-sm mono">
@@ -22,11 +42,20 @@ class LoadBalanceSubmit extends React.Component {
           onChange={this.props.onChange}
           />
         <div className="input-group-append">
-          <label className={"input-group-text bg-"+status}></label> 
+          <Tooltip classes={{ tooltip: classes.tooltipHelp }} title={statusMsg}>
+            <label className={"input-group-text bg-" + status}>
+              {icon}
+            </label> 
+          </Tooltip>
         </div>
       </div>
     );
   }
 }
 
-export default LoadBalanceSubmit;
+LoadBalanceSubmit.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+
+export default withStyles(styles)(LoadBalanceSubmit);
